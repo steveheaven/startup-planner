@@ -77,6 +77,7 @@ const reducer = (
 							? setStageCompleted(true).setIn([stageId + 1, "disabled"], false)
 							: setStageCompleted(true);
 				} else {
+					// returnData = setStageCompleted(false);
 					returnData = setStageCompleted(false);
 				}
 				const returnDataArr = returnData.toArray();
