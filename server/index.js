@@ -18,6 +18,10 @@ app
 		// https://github.com/zeit/next.js/wiki/Getting-ready-for-production
 		if (!dev) server.use(compression());
 
+		server.get("/success", (req, res) => {
+			return app.render(req, res, "/success", req.params);
+		});
+
 		server.get("*", (req, res) => {
 			return handle(req, res);
 		});

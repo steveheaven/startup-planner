@@ -1,10 +1,8 @@
-import React, { FC, InputHTMLAttributes, useState } from "react";
+import React, { FC, useState } from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import { CheckboxWrapper, StyledInput, Label } from "./styled";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { connect } from "react-redux";
-import { AppState } from "../../store";
-import { updateStages, StagesAction } from "../../store/stages/actions";
+import { updateStages } from "../../store/stages/actions";
 import { StageType } from "../../common/types";
 
 // type Props = InputHTMLAttributes<HTMLInputElement> & {
@@ -19,12 +17,14 @@ type Props = {
 	label: string;
 	name?: string;
 	checked: boolean;
-	stages: Array<StageType>;
+	stages: Iterable<StageType>;
 	stageId: number;
 	stepId: number;
 	type: string;
+	disabled: boolean;
 	updateStages: (
-		stages: Array<StageType>,
+		stages: Iterable<StageType>,
+		isLocalStorage: boolean,
 		checked: boolean,
 		stageId: number,
 		stepId: number
@@ -40,11 +40,14 @@ const Input: FC<Props> = ({
 	stepId,
 	stages,
 	updateStages,
+	disabled,
 }) => {
-	// const [isChecked, setIsChecked] = useState(true);
+	// the initial state of checkbox has to be true to prevent initial double-click on checkbox to change the value
+	const [isChecked, setIsChecked] = useState(true);
 
-	const handleChange = (event) => {
-		updateStages(stages, event.target.checked, stageId, stepId);
+	const handleChange = () => {
+		// calling action with parameters to change the redux state
+		updateStages(stages, false, isChecked, stageId, stepId);
 	};
 
 	return (
@@ -55,6 +58,12 @@ const Input: FC<Props> = ({
 						style={{
 							paddingLeft: "10px",
 						}}
+						onClick={() => {
+							if (!disabled) {
+								setIsChecked(!isChecked);
+								handleChange();
+							}
+						}}
 					>
 						<Checkbox
 							style={{ margin: 0, transform: "scale(1.5)" }}
@@ -62,8 +71,9 @@ const Input: FC<Props> = ({
 							onChange={handleChange}
 							name='checkbox'
 							color='primary'
+							disabled={disabled}
 						/>
-						<Label>{label}</Label>
+						<Label disabled={disabled}>{label}</Label>
 					</div>
 				</CheckboxWrapper>
 			) : (

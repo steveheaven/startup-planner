@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { isBrowser } from "../utils/is-browser";
 import stages from "./stages/reducer";
-import { MakeStore, createWrapper, Context, HYDRATE } from "next-redux-wrapper";
+import { createWrapper } from "next-redux-wrapper";
 
 const reducer = combineReducers({
 	stages,
@@ -16,14 +16,6 @@ export type AppState = ReturnType<typeof reducer>;
 const composeEnhancers =
 	// @ts-ignore
 	(isBrowser() && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-
 const makeStore = (preloadedState = {}) =>
-	createStore(
-		reducer,
-
-		{
-			...preloadedState,
-		},
-		composeEnhancers(applyMiddleware(thunk))
-	);
+	createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 export const wrapper = createWrapper(makeStore);

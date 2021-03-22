@@ -13,8 +13,10 @@ export const StyledInput = styled.input`
 	padding: 1rem 1.2rem;
 `;
 
-export const Label = styled.label`
+export const Label = styled.button`
 	font-size: ${theme.fontSize.medium};
 	margin-bottom: 0.6rem;
-	cursor: pointer;
+	background-color: transparent;
+	border: none;
+	outline: none;
 `;
