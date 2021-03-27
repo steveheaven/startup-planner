@@ -6,12 +6,12 @@ import { wrapper } from "../src/store";
 import { useRouter } from "next/router";
 import NProgress from "nprogress"; //nprogress module
 import "nprogress/nprogress.css"; //styles of nprogress
-import Head from "next/head";
-//Binding events.
+import { Head } from "next/document";
 
 const MyApp = ({ Component, pageProps }) => {
 	const router = useRouter();
 
+	//Binding events
 	useEffect(() => {
 		let routeChangeStart = () => NProgress.start();
 		let routeChangeComplete = () => NProgress.done();
@@ -41,11 +41,11 @@ const MyApp = ({ Component, pageProps }) => {
 		</>
 	);
 };
-// MyApp.getInitialProps = async (appContext) => {
-// 	// calls page's `getInitialProps` and fills `appProps.pageProps`
-// 	const appProps = await App.getInitialProps(appContext);
+MyApp.getInitialProps = async (appContext) => {
+	// calls page's `getInitialProps` and fills `appProps.pageProps`
+	const appProps = await App.getInitialProps(appContext);
 
-// 	return { ...appProps };
-// };
+	return { ...appProps };
+};
 
 export default wrapper.withRedux(MyApp);
