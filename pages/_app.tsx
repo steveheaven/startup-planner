@@ -7,9 +7,7 @@ import { useRouter } from "next/router";
 import NProgress from "nprogress"; //nprogress module
 import "nprogress/nprogress.css"; //styles of nprogress
 import Head from "next/head";
-import { StylesProvider } from "@material-ui/styles";
-import { ThemeProvider } from "styled-components";
-import { theme } from "../src/common/theme";
+// import JssProvider from "react-jss/src/JssProvider";
 
 const MyApp = ({ Component, pageProps }) => {
 	const router = useRouter();
@@ -31,20 +29,18 @@ const MyApp = ({ Component, pageProps }) => {
 
 	return (
 		<>
+			<GlobalStyles />
 			<Head>
 				<link
 					rel='stylesheet'
 					href='https://cdnjs.cloudflare.com/ajax/libs    /nprogress/0.2.0/nprogress.min.css'
 				/>
 			</Head>
-			<GlobalStyles />
+			{/* <JssProvider> */}
 			<Layout>
-				<ThemeProvider theme={theme}>
-					<StylesProvider injectFirst>
-						<Component {...pageProps} />
-					</StylesProvider>
-				</ThemeProvider>
+				<Component {...pageProps} />
 			</Layout>
+			{/* </JssProvider> */}
 		</>
 	);
 };
