@@ -6,7 +6,8 @@ import { wrapper } from "../src/store";
 import { useRouter } from "next/router";
 import NProgress from "nprogress"; //nprogress module
 import "nprogress/nprogress.css"; //styles of nprogress
-import { Head } from "next/document";
+import Head from "next/head";
+import { StylesProvider } from "@material-ui/styles";
 
 const MyApp = ({ Component, pageProps }) => {
 	const router = useRouter();
@@ -35,8 +36,10 @@ const MyApp = ({ Component, pageProps }) => {
 				/>
 			</Head>
 			<GlobalStyles />
-			<Layout {...pageProps}>
-				<Component {...pageProps} />
+			<Layout>
+				<StylesProvider injectFirst>
+					<Component {...pageProps} />
+				</StylesProvider>
 			</Layout>
 		</>
 	);
